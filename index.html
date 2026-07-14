@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite de Casamento - N | C</title>
+
+    <!-- Importando uma fonte limpa e sofisticada -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           RESET E ESTILO DO FUNDO (PC)
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle, #5d6356 0%, #2f362d 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .fundo-desktop {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Container do convite */
+        .area-convite {
+            display: block;
+            width: 100%;
+            height: 100vh;
+            max-width: 450px;
+            max-height: 850px;
+            position: relative;
+            overflow: hidden; 
+        }
+
+        /* Grupo que contém a capa e o selo para o Zoom conjunto */
+        .grupo-imagens {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transition: transform 1.5s ease-in-out;
+            transform-origin: center 50%; /* Foco do zoom no centro */
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Imagem do convite (fundo estático) */
+        .imagem-capa {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 15px;
+        }
+
+        /* ESTILO DO SELO QUE VAI GIRAR E CRESCE */
+        .imagem-selo {
+            position: absolute;
+            top: 52%; /* Ajuste fino para encaixar no centro do selo da capa */
+            left: 50%;
+            
+            /* scale(1) e rotateZ(0deg) determinam o estado inicial parado */
+            transform: translate(-50%, -50%) scale(1) rotateZ(0deg);
+            
+            width: 220px; /* Altere este valor para ficar do tamanho exato da capa */
+            transition: transform 1.5s ease-in-out;
+            z-index: 2;
+        }
+
+        /* =========================================
+           BOTÃO "CLIQUE AQUI"
+           ========================================= */
+        .link-texto-clique {
+            position: absolute;
+            bottom: 22%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 300;
+            font-size: 13px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .link-texto-clique:hover {
+            color: #e2d2b9;
+            letter-spacing: 5px;
+            opacity: 0.9;
+        }
+
+        /* Camada escura durante o zoom */
+        .fade {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0);
+            transition: background 1.5s ease;
+            pointer-events: none;
+            z-index: 5;
+            border-radius: 15px;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                background: #2f362d;
+            }
+
+            .area-convite {
+                max-width: 100%;
+                max-height: 100vh;
+            }
+
+            .grupo-imagens, .imagem-capa, .fade {
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .link-texto-clique {
+                bottom: 22%;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fundo-desktop">
+        <div class="area-convite">
+
+            <!-- Container agrupa tudo que vai sofrer zoom -->
+            <div class="grupo-imagens" id="grupoImagens">
+                <img src="capa.png" alt="Convite N | C" class="imagem-capa">
+                <img src="celo.png" alt="Selo" class="imagem-selo" id="selo">
+            </div>
+
+            <!-- Escurecimento -->
+            <div class="fade" id="fade"></div>
+
+            <!-- Link -->
+            <a href="convite.html" class="link-texto-clique" id="abrirConvite">Clique Aqui</a>
+
+        </div>
+    </div>
+
+    <script>
+        const link = document.getElementById("abrirConvite");
+        const grupoImagens = document.getElementById("grupoImagens");
+        const selo = document.getElementById("selo");
+        const fade = document.getElementById("fade");
+
+        link.addEventListener("click", function(e){
+            e.preventDefault();
+
+            // 1. Esconde o texto
+            link.style.opacity = "0";
+
+            // 2. Dá o Zoom geral (fundo + selo juntos)
+            grupoImagens.style.transform = "scale(3.6)";
+
+            // 3. Efeito do Selo: Mantém no centro, INCHA (scale 1.15) e GIRA como tampa (rotateZ)
+            selo.style.transform = "translate(-50%, -50%) scale(1.15) rotateZ(-360deg)";
+
+            // 4. Escurece levemente o fundo
+            fade.style.background = "rgba(0,0,0,0.35)";
+
+            // 5. Vai para a próxima página após a animação de 1.5s (1500ms)
+            setTimeout(function(){
+                window.location.href = link.href;
+            }, 1500);
+        });
+    </script>
+
+</body>
+</html>

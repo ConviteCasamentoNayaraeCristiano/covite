@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite de Casamento - N | C</title>
+    
+    <!-- Importando as fontes elegantes do Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           RESET E ESTILO DO CORPO DA PÁGINA
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Fundo degradê verde-oliva de casamento fixo no fundo */
+            background: radial-gradient(circle, #5d6356 0%, #2f362d 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            padding-top: 80px; 
+        }
+
+        /* =========================================
+           CABEÇALHO FIXO NO TOPO
+           ========================================= */
+        .cabecalho-fixo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08); 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+
+        .link-logo {
+            color: #000000; 
+            text-decoration: none;
+            font-weight: 300; 
+            font-size: 13px;
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .link-logo:hover {
+            opacity: 0.6; 
+        }
+
+        .btn-confirmar {
+            background-color: transparent;
+            border: 1px solid #000000; 
+            color: #000000; 
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-confirmar:hover {
+            background-color: #000000; 
+            color: #ffffff; 
+            transform: scale(1.03);
+        }
+
+        /* =========================================
+           CONTAINER DO CONVITE
+           ========================================= */
+        .container-convite {
+            width: 100%;
+            max-width: 450px;
+            position: relative; 
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            overflow: hidden;
+            
+            /* Ativa as medidas proporcionais lá dentro */
+            container-type: inline-size; 
+        }
+
+        .imagem-longa {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* =========================================
+           O CONTADOR VIVO
+           ========================================= */
+        .contador-vivo {
+            position: absolute;
+            top: 31.44%; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 68%; 
+            height: 4.5%; 
+            background-color: #7a8e5a; 
+            border-radius: 1.5cqw; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            padding: 1cqw 0;
+        }
+
+        .contador-titulo {
+            font-family: 'Great Vibes', cursive;
+            color: #ffffff;
+            font-size: 5.5cqw; 
+            font-weight: 400;
+            margin-bottom: 0.5cqw;
+            text-align: center;
+        }
+
+        .contador-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 90%;
+        }
+
+        .contador-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ffffff;
+            width: 22%;
+        }
+
+        .contador-numero {
+            font-size: 3.5cqw; 
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 0.2cqw;
+        }
+
+        .contador-legenda {
+            font-size: 1.2cqw; 
+            text-transform: uppercase;
+            letter-spacing: 0.1cqw;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .contador-divisor {
+            color: #ffffff;
+            font-size: 2.5cqw;
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 1cqw; 
+            opacity: 0.8;
+        }
+
+        /* =========================================
+           BOTÕES INVISÍVEIS (Ajuste Cirúrgico de Altura)
+           ========================================= */
+        .botao-invisivel {
+            position: absolute;
+            
+            /* Posição vertical exata para o ícone + texto debaixo dele */
+            top: 71.2%; 
+            height: 4.8%; /* Reduzido de 8.0% para 4.8% para ficar bem compacto */
+            
+            background-color: rgba(255, 255, 255, 0); /* 100% invisível */
+            cursor: pointer;
+            z-index: 20;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        /* Efeito de feedback visual discreto ao passar o mouse no PC */
+        .botao-invisivel:hover {
+            background-color: rgba(47, 54, 45, 0.08); 
+        }
+
+        /* Posicionamento horizontal exato de cada botão */
+        .btn-confirmar-inv {
+            left: 5%;
+            width: 24%;
+        }
+
+        .btn-local-inv {
+            left: 38%;
+            width: 24%;
+        }
+
+        .btn-lista-inv {
+            left: 71%;
+            width: 24%;
+        }
+
+        /* =========================================
+           AJUSTES PARA CELULAR
+           ========================================= */
+        @media (max-width: 500px) {
+            body {
+                background: #2f362d;
+                padding-top: 70px;
+            }
+
+            .cabecalho-fixo {
+                padding: 0 15px;
+            }
+
+            .link-logo {
+                font-size: 11px;
+                letter-spacing: 1px;
+            }
+
+            .btn-confirmar {
+                font-size: 10px;
+                padding: 6px 12px;
+                letter-spacing: 1px;
+            }
+
+            .container-convite {
+                max-width: 100%;
+                border-radius: 0;
+                box-shadow: none;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PLAYER DE ÁUDIO INVISÍVEL -->
+    <audio id="musicaFundo" autoplay loop>
+        <source src="musica.mp3" type="audio/mpeg">
+        Seu navegador não suporta áudio.
+    </audio>
+
+    <!-- CABEÇALHO FIXO -->
+    <header class="cabecalho-fixo">
+        <a href="pagina1.html" class="link-logo">← Capa</a>
+        
+        <!-- Botão de confirmação rápido no topo -->
+        
+    </header>
+
+    <!-- CONTEÚDO DO CONVITE -->
+    <div class="container-convite">
+        
+        <!-- Imagem de fundo completa -->
+        <img src="convite.png" alt="Detalhes do Convite de Casamento" class="imagem-longa">
+        
+        <!-- O CONTADOR VIVO QUE TAMPARÁ O CONGELADO POR COMPLETO -->
+        <div class="contador-vivo">
+            <div class="contador-titulo">Contagem regressiva</div>
+            <div class="contador-grid">
+                <div class="contador-item">
+                    <span class="contador-numero" id="dias">00</span>
+                    <span class="contador-legenda">Dias</span>
+                </div>
+                <div class="contador-divisor">:</div>
+                <div class="contador-item">
+                    <span class="contador-numero" id="horas">00</span>
+                    <span class="contador-legenda">Horas</span>
+                </div>
+                <div class="contador-divisor">:</div>
+                <div class="contador-item">
+                    <span class="contador-numero" id="minutos">00</span>
+                    <span class="contador-legenda">Minutos</span>
+                </div>
+                <div class="contador-divisor">:</div>
+                <div class="contador-item">
+                    <span class="contador-numero" id="segundos">00</span>
+                    <span class="contador-legenda">Segundos</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- OS TRÊS BOTÕES INVISÍVEIS INSTALADOS INDIVIDUALMENTE POR CIMA DA IMAGEM -->
+        
+        <!-- Botão 1: Confirmar Presença (WhatsApp) -->
+        <a href="https://noivos.casar.com/nayara-e-cristiano-2026-09-12/?preview_as_guest=1&_ref_=https://painel.casar.com/carteira#/rsvp" target="_blank" class="botao-invisivel btn-confirmar-inv" title="Confirmar Presença"></a>
+        
+        <!-- Botão 2: Local (Google Maps) -->
+        <a href="https://www.google.com/maps/place/Sitio+Encanto+Imperial/@-19.898834,-44.120848,1312m/data=!3m1!1e3!4m6!3m5!1s0xa6eb0070b97f4f:0x62e95f9b27442174!8m2!3d-19.898834!4d-44.1208485!16s%2Fg%2F11ywnbl2ty?hl=pt-BR&entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="botao-invisivel btn-local-inv" title="Abrir Localização"></a>
+        
+        <!-- Botão 3: Lista de Presentes -->
+        <a href="https://noivos.casar.com/nayara-e-cristiano-2026-09-12/?preview_as_guest=1&_ref_=https://painel.casar.com/carteira#/presentes" target="_blank" class="botao-invisivel btn-lista-inv" title="Ver Lista de Presentes"></a>
+
+    </div>
+
+    <!-- SCRIPT DO CONTADOR PROGRESSIVO (JAVASCRIPT) -->
+    <!-- =========================================
+         SCRIPT DO CONTADOR ULTRA COMPATÍVEL (JAVASCRIPT)
+         ========================================= -->
+         <script>
+
+            const audio = document.getElementById("musicaFundo");
+
+audio.addEventListener("loadedmetadata", () => {
+    audio.currentTime = 2; // começa no segundo 3
+});
+            // Formato numérico universal (Ano, Mês [0-11], Dia, Hora, Minuto, Segundo)
+            // 8 = Setembro (Janeiro é 0)
+            const dataCasamento = new Date(2026, 8, 12, 17, 0, 0).getTime();
+    
+            function atualizarContador() {
+                const agora = new Date().getTime();
+                const diferenca = dataCasamento - agora;
+    
+                // Se a data já passou, zera o cronômetro e para o intervalo
+                if (diferenca < 0) {
+                    clearInterval(intervalo);
+                    document.getElementById("dias").innerText = "00";
+                    document.getElementById("horas").innerText = "00";
+                    document.getElementById("minutos").innerText = "00";
+                    document.getElementById("segundos").innerText = "00";
+                    return;
+                }
+    
+                // Cálculos de tempo para Dias, Horas, Minutos e Segundos
+                const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+                const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+    
+                // Atualiza o HTML colocando um "0" na frente se o número for menor que 10
+                document.getElementById("dias").innerText = dias < 10 ? "0" + dias : dias;
+                document.getElementById("horas").innerText = horas < 10 ? "0" + horas : horas;
+                document.getElementById("minutos").innerText = minutos < 10 ? "0" + minutos : minutos;
+                document.getElementById("segundos").innerText = segundos < 10 ? "0" + segundos : segundos;
+            }
+    
+            // Executa a função IMEDIATAMENTE ao carregar a página para não ter delay
+            atualizarContador();
+    
+            // Depois continua atualizando a cada 1 segundo (1000 milissegundos)
+            const intervalo = setInterval(atualizarContador, 1000);
+        </script>
+
+</body>
+</html>

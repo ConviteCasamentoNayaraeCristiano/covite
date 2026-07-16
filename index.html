@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Força o navegador a sempre pedir uma versão nova da página -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>Convite de Casamento - N | C</title>
 
     <!-- Importando uma fonte limpa e sofisticada -->
@@ -11,9 +16,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================
-           RESET E ESTILO DO FUNDO (PC)
-           ========================================= */
         * {
             margin: 0;
             padding: 0;
@@ -38,7 +40,6 @@
             align-items: center;
         }
 
-        /* Container do convite */
         .area-convite {
             display: block;
             width: 100%;
@@ -49,18 +50,16 @@
             overflow: hidden; 
         }
 
-        /* Grupo que contém a capa e o selo para o Zoom conjunto */
         .grupo-imagens {
             width: 100%;
             height: 100%;
             position: absolute;
             transition: transform 1.5s ease-in-out;
-            transform-origin: center 50%; /* Foco do zoom no centro */
+            transform-origin: center 50%;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* Imagem do convite (fundo estático) */
         .imagem-capa {
             width: 100%;
             height: 100%;
@@ -69,23 +68,16 @@
             border-radius: 15px;
         }
 
-        /* ESTILO DO SELO QUE VAI GIRAR E CRESCE */
         .imagem-selo {
             position: absolute;
-            top: 52%; /* Ajuste fino para encaixar no centro do selo da capa */
+            top: 52%; 
             left: 50%;
-            
-            /* scale(1) e rotateZ(0deg) determinam o estado inicial parado */
             transform: translate(-50%, -50%) scale(1) rotateZ(0deg);
-            
-            width: 220px; /* Altere este valor para ficar do tamanho exato da capa */
+            width: 220px;
             transition: transform 1.5s ease-in-out;
             z-index: 2;
         }
 
-        /* =========================================
-           BOTÃO "CLIQUE AQUI"
-           ========================================= */
         .link-texto-clique {
             position: absolute;
             bottom: 22%;
@@ -109,7 +101,6 @@
             opacity: 0.9;
         }
 
-        /* Camada escura durante o zoom */
         .fade {
             position: absolute;
             inset: 0;
@@ -121,24 +112,10 @@
         }
 
         @media (max-width: 500px) {
-            body {
-                background: #2f362d;
-            }
-
-            .area-convite {
-                max-width: 100%;
-                max-height: 100vh;
-            }
-
-            .grupo-imagens, .imagem-capa, .fade {
-                border-radius: 0;
-                box-shadow: none;
-            }
-
-            .link-texto-clique {
-                bottom: 22%;
-                font-size: 12px;
-            }
+            body { background: #2f362d; }
+            .area-convite { max-width: 100%; max-height: 100vh; }
+            .grupo-imagens, .imagem-capa, .fade { border-radius: 0; box-shadow: none; }
+            .link-texto-clique { bottom: 22%; font-size: 12px; }
         }
     </style>
 </head>
@@ -146,23 +123,17 @@
 
     <div class="fundo-desktop">
         <div class="area-convite">
-
-            <!-- Container agrupa tudo que vai sofrer zoom -->
             <div class="grupo-imagens" id="grupoImagens">
                 <img src="capa.png" alt="Convite N | C" class="imagem-capa">
                 <img src="celo.png" alt="Selo" class="imagem-selo" id="selo">
             </div>
-
-            <!-- Escurecimento -->
             <div class="fade" id="fade"></div>
-
-            <!-- Link -->
             <a href="convite.html" class="link-texto-clique" id="abrirConvite">Clique Aqui</a>
-
         </div>
     </div>
 
     <script>
+        // LÓGICA DA ANIMAÇÃO
         const link = document.getElementById("abrirConvite");
         const grupoImagens = document.getElementById("grupoImagens");
         const selo = document.getElementById("selo");
@@ -170,25 +141,34 @@
 
         link.addEventListener("click", function(e){
             e.preventDefault();
-
-            // 1. Esconde o texto
             link.style.opacity = "0";
-
-            // 2. Dá o Zoom geral (fundo + selo juntos)
             grupoImagens.style.transform = "scale(3.6)";
-
-            // 3. Efeito do Selo: Mantém no centro, INCHA (scale 1.15) e GIRA como tampa (rotateZ)
             selo.style.transform = "translate(-50%, -50%) scale(1.15) rotateZ(-360deg)";
-
-            // 4. Escurece levemente o fundo
             fade.style.background = "rgba(0,0,0,0.35)";
-
-            // 5. Vai para a próxima página após a animação de 1.5s (1500ms)
+            
             setTimeout(function(){
                 window.location.href = link.href;
             }, 1500);
         });
+
+        // =========================================
+        // FORÇA RECARREGAR AO VOLTAR COM A SETA (BLINDADO)
+        // =========================================
+        window.addEventListener('pageshow', function(event) {
+            let isBack = event.persisted;
+
+            if (!isBack && window.performance && window.performance.getEntriesByType) {
+                let navEntries = window.performance.getEntriesByType('navigation');
+                if (navEntries.length > 0 && navEntries[0].type === 'back_forward') {
+                    isBack = true;
+                }
+            }
+
+            if (isBack) {
+                // Força o reload limpando qualquer estado anterior
+                window.location.replace(window.location.pathname + "?refresh=" + new Date().getTime());
+            }
+        });
     </script>
-<!-- teste -->
 </body>
 </html>
